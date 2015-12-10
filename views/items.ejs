@@ -1,0 +1,204 @@
+<style type="text/css">
+	input {
+		margin-top: 5px;
+	}
+	select {
+		display: block;
+		margin-top: 5px;
+	}
+</style>
+
+<div>
+	<div class="container">
+		<div class="row">
+			<h1>Search items</h1>
+			<form id="search-items">
+				<input name="title" type="text" placeholder="Title" />
+				<input name="price" type="number" placeholder="Price" />
+				<select id="sort">
+					<p>Sort by</p>
+					<option value="price">Price</option>
+					<option selected value="createdAt">Created</option>
+				</select>
+				<select id="sequence">
+					<p>Sequence</p>
+					<option value="asc">Direct</option> 
+					<option selected value="desc">Reverce</option>
+				</select>
+				<input type="submit" value="Search" class="btn btn-default">
+			</form>
+		</div>
+	</div>
+	<hr/>
+	<div class="container">
+		<div class="row">
+			<h1>Get item by id</h1>
+			<form id="search-item">
+				<input name="id" type="number" min="0" placeholder="Item id" />
+				<input type="submit" value="Get item by id" class="btn btn-default"/>
+			</form>
+		</div>
+	</div>
+	<hr/>
+	<div class="container">
+		<div class="row">
+			<h1>Update item by id</h1>
+			<form id="update-item">
+				<input name="id" type="number" min="0" placeholder="Item id" required/>
+				<input name="title" type="text" placeholder="New item title" />
+				<input name="price" type="number" min="0" placeholder="New item price" />
+				<input type="submit" value="Update item by id" class="btn btn-default"/>
+			</form>
+		</div>
+	</div>
+	<hr/>
+	<div class="container">
+		<div class="row">
+			<h1>Delete item by id</h1>
+			<form id="delete-item">
+				<input name="id" type="number" min="0" placeholder="Item id" />
+				<input type="submit" value="Delete" class="btn btn-default"/>
+			</form>
+		</div>
+	</div>
+	<hr/>
+	<div class="container">
+		<div class="row">
+			<h1>Update item image</h1>
+			<form id="upload-item-image" action="/api/item/1/image" method="post" enctype="multipart/form-data">
+				<input type="file" name="uploadPic" />
+				<input type="submit" value="Upload" class="btn btn-default">
+			</form>
+		</div>
+	</div>
+	<hr/>
+	<div class="container">
+		<div class="row">
+			<h1>Delete item image</h1>
+			<form id="delete-item-image">
+				<input name="id" type="number" min="0" placeholder="Item id" />
+				<input type="submit" value="Delete image" class="btn btn-default"/>
+			</form>
+		</div>
+	</div>
+<div>
+
+<script type="text/javascript">
+	window.onload = function(){
+		/*
+		*	Search items by params
+		*/
+		$('#search-items').on('submit', function(e){
+			e.preventDefault();
+
+			var title 		= $('form input[name="title"]').val(),
+				price 		= $('form input[name="price"]').val(),
+				order_by	= $('form #sort').val(),
+				order_type	= $('form #sequence').val();
+
+			$.ajax({
+				url: '/api/item?title=' + title + '&price=' + price + '&order_by=' + order_by + '&order_type=' + order_type,
+				type: 'GET',
+				success: function(res){
+					alert('success');
+				},
+				error: function(res){
+					alert('error');
+				}
+			});
+		});
+		/*
+		*	Search item by id
+		*/
+		$('#search-item').on('submit', function(e){
+			e.preventDefault();
+			var id = $('#search-item input[name="id"]').val();
+
+			$.ajax({
+				url: 	'/api/item/' + id,
+				type: 	'GET',
+				success: function(res){
+					alert('Get item by id success');
+				},
+				error: function(res){
+					alert('Get item by id error');
+				}
+			});
+		});
+		/*
+		*	Update item by id
+		*/
+		$('#update-item').on('submit', function(e){
+			e.preventDefault();
+			var id = $('#update-item input[name="id"]').val(),
+				updateData = {};
+
+			updateData.title = $('#update-item input[name="title"]').val();
+			updateData.price = $('#update-item input[name="price"]').val();
+
+			$.ajax({
+				url:  '/api/item/' + id,
+				type: 'PUT',
+				data: updateData,
+				beforeSend: function(req){
+					req.setRequestHeader("authorization", window.localStorage.getItem('token'));
+				},
+				success: function(res){
+					alert('Update item by id success');
+				},
+				error: function(res){
+					alert('Update item by id error');
+				}
+			});
+		});
+		/*
+		*	Delete item by id
+		*/
+		$('#delete-item').on('submit', function(e){
+			e.preventDefault();
+			var id = $('#delete-item input[name="id"]').val();
+
+			$.ajax({
+				url:  '/api/item/' + id,
+				type: 'DELETE',
+				beforeSend: function(req){
+					req.setRequestHeader("authorization", window.localStorage.getItem('token'));
+				},
+				success: function(res){
+					alert('Delete item by id success');
+				},
+				error: function(res){
+					alert('Delete item by id error');
+				}
+			});
+		});
+		/*
+		*	Upload item iamge
+		*/
+		//SOME CODE
+		// $('#upload-item-image').on('submit', function(e){
+		// 	e.preventDefault();
+		// });
+		/*
+		*	Delete item image
+		*/
+		$('#delete-item-image').on('submit', function(e){
+			e.preventDefault();
+			var id = $('#delete-item-image input[name="id"]').val();
+
+			$.ajax({
+				url:  '/api/item/' + id + '/image',
+				type: 'DELETE',
+				beforeSend: function(req){
+					req.setRequestHeader("authorization", window.localStorage.getItem('token'));
+				},
+				success: function(res){
+					alert('Delete item by id success');
+				},
+				error: function(res){
+					alert('Delete item by id error');
+				}
+			});
+		});
+	}
+</script>

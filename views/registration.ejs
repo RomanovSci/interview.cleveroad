@@ -1,0 +1,75 @@
+<style>
+	#reg-container {
+		width: 400px;
+		margin: 0 auto;
+	}
+
+	#success-reg {
+		display: none;
+		width: 500px;
+		margin: 0 auto;
+		background-color: #D0D0D0;
+		padding: 10px;
+	}
+
+</style>
+
+<div id="reg-container">
+	<h1> Registration new user </h1>
+	<h3> All field required </h3>
+	<form id="reg-new-profile">
+		<input name="email" type="email" placeholder="Type your email here" required/>
+		<input name="password" type="password" placeholder="Type your password here" required/>
+		<input name="name" type="text" placeholder="Type your name here" required/>
+		<input name="phone" type="text" placeholder="Type your phone here" required/>
+		
+		<input type="submit" value="Submit" class="btn"/>
+	</form>
+</div>
+
+<div id="success-reg">
+	<h1>Success registration</h1>
+	<a href="/">Main page</a>
+</div>
+
+<script type="text/javascript">
+	window.onload = function(){
+	    $('#reg-new-profile').on('submit', function(e){
+	    	e.preventDefault();
+
+	    	var data = $('#reg-new-profile input');
+	    	var fieldsData = {
+	    		email: 				data[0].value,
+	    		password: 			data[1].value,
+	    		name: 				data[2].value,
+	    		phone: 				data[3].value
+	    	};
+
+	    	$.ajax({
+	    		url:  '/api/register',
+	    		type: 'POST',
+	    		data: fieldsData,
+	    		success: function(result, status, xhr){
+	    			window.localStorage.setItem('token', result);
+	    			
+	    			data[0].value = "";
+	    			data[1].value = "";
+	    			data[2].value = "";
+	    			data[3].value = "";
+	    			
+	    			$('#reg-contaoner').css('display', 'none');
+	    			$('#success-reg').css('display', 'block');
+	    		},
+	    		error: function(result, status, xhr){
+	    			console.dir(result);
+	    			console.log(status);
+	    			console.dir(xhr);
+
+	    			$('#reg-container').css('display', 'none');
+	    			$('#success-reg').css('display', 'block');
+	    			$('#success-reg h1').text('Error');
+	    		} 
+	    	});
+	    });
+    };
+</script>

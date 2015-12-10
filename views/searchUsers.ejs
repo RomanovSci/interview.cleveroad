@@ -1,0 +1,38 @@
+<style>
+	#get-user-container {
+		width: 300px;
+		margin: 0 auto;
+	}
+</style>
+
+<div id="search-users-container">
+	<h1> Search users</h1>
+	<form id="search-users">
+		<input name="name" type="text" placeholder="Type user name here"/>
+        <input name="email" type="email" placeholder="Type user email here"/>
+		
+        <input type="submit" value="Search users" />
+	</form>
+<div>
+
+<script type="text/javascript">
+  window.onload = function(){
+    $('#search-users').on('submit', function(e){
+    	e.preventDefault();
+
+    	var name   = $('#search-users input[name="name"]').val();
+        var email  = $('#search-users input[name="email"]').val();
+
+    	$.ajax({
+    		url:  '/api/user?name=' + name + '&email=' + email,
+    		type: 'GET',
+    		success: function(result, status, xhr){
+    			console.dir(result);
+    		},
+    		error: function(result, status, xhr){
+    			console.log('Error 404');
+    		} 
+    	});
+    });
+  };
+</script>

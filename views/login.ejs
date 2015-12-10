@@ -1,0 +1,40 @@
+<style>
+	#login-container {
+		width: 300px;
+		margin: 0 auto;
+	}
+</style>
+
+<div id="login-container">
+	<h1>Login</h1>
+	<form id="login">
+		<input name="email" type="email" placeholder="Type email here"/>
+        <input name="password" type="password" placeholder="Type password here"/>
+		
+        <input type="submit" value="Login" />
+	</form>
+<div>
+
+<script type="text/javascript">
+  window.onload = function(){
+    $('#login').on('submit', function(e){
+    	e.preventDefault();
+        var loginData = {};
+
+    	loginData.email    = $('#login input[name="email"]').val();
+        loginData.password = $('#login input[name="password"]').val();
+
+    	$.ajax({
+    		url:  '/api/login',
+    		type: 'POST',
+            data: loginData,
+    		success: function(result, status, xhr){
+    			window.localStorage.setItem('token', result);
+    		},
+    		error: function(result, status, xhr){
+    			console.log('Error 404');
+    		} 
+    	});
+    });
+  };
+</script>
