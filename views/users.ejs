@@ -1,0 +1,67 @@
+<div class="container">
+    <div class="row">
+        <h1> Search users</h1>
+        <form id="search-users">
+            <input name="name" type="text" placeholder="Type user name here"/>
+            <input name="email" type="email" placeholder="Type user email here"/>
+            
+            <input type="submit" value="Search users" class="btn btn-default"/>
+        </form>
+    </div>
+    <hr/>
+    <div class="row">
+        <h1> Get user by id </h1>
+        <form id="get-user">
+            <input name="id" type="number" min="0" placeholder="Type user ID here" required/>
+            <input type="submit" value="Find" class="btn btn-default"/>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+  window.onload = function(){
+    /*
+     * Search users
+    */
+    $('#search-users').on('submit', function(e){
+    	e.preventDefault();
+
+    	var name   = $('#search-users input[name="name"]').val();
+        var email  = $('#search-users input[name="email"]').val();
+
+    	$.ajax({
+    		url:  '/api/user?name=' + name + '&email=' + email,
+    		type: 'GET',
+    		success: function(result, status, xhr){
+    			console.dir(result);
+    		},
+    		error: function(result, status, xhr){
+    			console.log('Error 404');
+    		} 
+    	});
+    });
+
+    /*
+     * Search user by id
+    */
+    $('#get-user').on('submit', function(e){
+        e.preventDefault();
+
+        var id = $('#get-user input[name="id"]').val();
+
+        $.ajax({
+            url:  '/api/user/' + id,
+            type: 'GET',
+            beforeSend: function(req){
+                req.setRequestHeader("authorization", window.localStorage.getItem('token'));
+            },
+            success: function(result, status, xhr){
+                console.dir(result);
+            },
+            error: function(result, status, xhr){
+                console.log('Error 404');
+            } 
+        });
+    });
+  };
+</script>

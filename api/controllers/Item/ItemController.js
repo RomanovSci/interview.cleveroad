@@ -40,6 +40,7 @@ function searchItems(req, res){
 
 function getItemById(req, res){
 	var iid = req.params.id;
+	console.log(iid);
 
 	Item
 		.findOne({id: iid})
@@ -158,10 +159,18 @@ function createItem(req, res){
 function uploadItemImage(req, res){
 	var iid = req.params.id;
 
-	console.log(iid);
-	console.log(req.file('imaga.png'));
+	req.file('item_pic').upload({
+		dirname: '../../assets/images/items_image'
+	},  function (err, file) {
+	      	if(err){
+	        	return res.serverError();
+	      	}
 
-	res.ok();
+	      	return res.json({
+	        	message: file.length + ' file(s) uploaded successfully!',
+	        	file: file
+	      	});
+    });
 }
 
 function deleteItemImage(req, res){

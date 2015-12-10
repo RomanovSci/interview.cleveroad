@@ -33,18 +33,6 @@ module.exports.routes = {
     view: 'registration'
   },
 
-  '/update-profile': {
-    view: 'updateProfile'
-  },
-
-  '/get-user-by-id': {
-    view: 'getUserById'
-  },
-
-  '/search-users': {
-    view: 'searchUsers'
-  },
-
   '/login': {
     view: 'login'
   },
@@ -55,6 +43,10 @@ module.exports.routes = {
 
   '/items': {
     view: 'items'
+  },
+
+  '/users': {
+    view: 'users'
   },
 
   /*

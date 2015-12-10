@@ -8,80 +8,90 @@
 	}
 </style>
 
-<div>
-	<div class="container">
-		<div class="row">
-			<h1>Search items</h1>
-			<form id="search-items">
-				<input name="title" type="text" placeholder="Title" />
-				<input name="price" type="number" placeholder="Price" />
-				<select id="sort">
-					<p>Sort by</p>
-					<option value="price">Price</option>
-					<option selected value="createdAt">Created</option>
-				</select>
-				<select id="sequence">
-					<p>Sequence</p>
-					<option value="asc">Direct</option> 
-					<option selected value="desc">Reverce</option>
-				</select>
-				<input type="submit" value="Search" class="btn btn-default">
-			</form>
-		</div>
+<div class="container">
+	<div class="row">
+		<h1>Search items</h1>
+		<form id="search-items">
+			<input name="title" type="text" placeholder="Title" />
+			<input name="price" type="number" placeholder="Price" />
+			<select id="sort">
+				<p>Sort by</p>
+				<option value="price">Price</option>
+				<option selected value="createdAt">Created</option>
+			</select>
+			<select id="sequence">
+				<p>Sequence</p>
+				<option value="asc">Direct</option> 
+				<option selected value="desc">Reverce</option>
+			</select>
+			<input type="submit" value="Search" class="btn btn-default">
+		</form>
 	</div>
-	<hr/>
-	<div class="container">
-		<div class="row">
-			<h1>Get item by id</h1>
-			<form id="search-item">
-				<input name="id" type="number" min="0" placeholder="Item id" />
-				<input type="submit" value="Get item by id" class="btn btn-default"/>
-			</form>
-		</div>
+</div>
+<hr/>
+<div class="container">
+	<div class="row">
+		<h1>Get item by id</h1>
+		<form id="search-item">
+			<input name="id" type="number" min="0" placeholder="Item id" required/>
+			<input type="submit" value="Get item by id" class="btn btn-default"/>
+		</form>
 	</div>
-	<hr/>
-	<div class="container">
-		<div class="row">
-			<h1>Update item by id</h1>
-			<form id="update-item">
-				<input name="id" type="number" min="0" placeholder="Item id" required/>
-				<input name="title" type="text" placeholder="New item title" />
-				<input name="price" type="number" min="0" placeholder="New item price" />
-				<input type="submit" value="Update item by id" class="btn btn-default"/>
-			</form>
-		</div>
+</div>
+<hr/>
+<div class="container">
+	<div class="row">
+		<h1>Add new item</h1>
+		<form id="create-item">
+			<input name="title" type="text" placeholder="Item title" required/>
+			<input name="price" type="number" min="0" placeholder="Item price" required/>
+			
+			<input type="submit" value="Create item" class="btn btn-default"/>
+		</form>
 	</div>
-	<hr/>
-	<div class="container">
-		<div class="row">
-			<h1>Delete item by id</h1>
-			<form id="delete-item">
-				<input name="id" type="number" min="0" placeholder="Item id" />
-				<input type="submit" value="Delete" class="btn btn-default"/>
-			</form>
-		</div>
+</div>
+<hr/>
+<div class="container">
+	<div class="row">
+		<h1>Update item by id</h1>
+		<form id="update-item">
+			<input name="id" type="number" min="0" placeholder="Item id" required/>
+			<input name="title" type="text" placeholder="New item title" />
+			<input name="price" type="number" min="0" placeholder="New item price" />
+			<input type="submit" value="Update item by id" class="btn btn-default"/>
+		</form>
 	</div>
-	<hr/>
-	<div class="container">
-		<div class="row">
-			<h1>Update item image</h1>
-			<form id="upload-item-image" action="/api/item/1/image" method="post" enctype="multipart/form-data">
-				<input type="file" name="uploadPic" />
-				<input type="submit" value="Upload" class="btn btn-default">
-			</form>
-		</div>
+</div>
+<hr/>
+<div class="container">
+	<div class="row">
+		<h1>Delete item by id</h1>
+		<form id="delete-item">
+			<input name="id" type="number" min="0" placeholder="Item id" required/>
+			<input type="submit" value="Delete" class="btn btn-default"/>
+		</form>
 	</div>
-	<hr/>
-	<div class="container">
-		<div class="row">
-			<h1>Delete item image</h1>
-			<form id="delete-item-image">
-				<input name="id" type="number" min="0" placeholder="Item id" />
-				<input type="submit" value="Delete image" class="btn btn-default"/>
-			</form>
-		</div>
+</div>
+<hr/>
+<div class="container">
+	<div class="row">
+		<h1>Update item image</h1>
+		<form id="upload-item-image" action="/api/item/1/image" method="post" enctype="multipart/form-data">
+			<input type="file" name="item_pic" />
+			<input type="submit" value="Upload" class="btn btn-default">
+		</form>
 	</div>
-<div>
+</div>
+<hr/>
+<div class="container">
+	<div class="row">
+		<h1>Delete item image</h1>
+		<form id="delete-item-image">
+			<input name="id" type="number" min="0" placeholder="Item id" />
+			<input type="submit" value="Delete image" class="btn btn-default"/>
+		</form>
+	</div>
+</div>
 
 <script type="text/javascript">
 	window.onload = function(){
@@ -122,6 +132,31 @@
 				},
 				error: function(res){
 					alert('Get item by id error');
+				}
+			});
+		});
+		/*
+		* Create new item request
+		*/
+		$('#create-item').on('submit', function(e){
+			e.preventDefault();
+			var itemData = {};
+			
+			itemData.title = $('#create-item input[name="title"]').val();
+			itemData.price = $('#create-item input[name="price"]').val();
+
+			$.ajax({
+				url: '/api/item',
+				type: 'POST',
+				data: itemData,
+				beforeSend: function(req){
+					req.setRequestHeader("authorization", window.localStorage.getItem('token'));
+				},
+				success: function(res){
+					alert('Item create success');
+				},
+				error: function(res){
+					alert('Item create error');	
 				}
 			});
 		});
@@ -175,10 +210,40 @@
 		/*
 		*	Upload item iamge
 		*/
-		//SOME CODE
-		// $('#upload-item-image').on('submit', function(e){
-		// 	e.preventDefault();
-		// });
+		$('#upload-item-image').on('submit', function(e){
+			if(!Validate(this)){
+				return false;
+			};
+
+    		//Validation method
+			function Validate(oForm) {
+			    var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
+			    var arrInputs = oForm.getElementsByTagName("input");
+			    for (var i = 0; i < arrInputs.length; i++) {
+			        var oInput = arrInputs[i];
+			        if (oInput.type == "file") {
+			            var sFileName = oInput.value;
+			            if (sFileName.length > 0) {
+			                var blnValid = false;
+			                for (var j = 0; j < _validFileExtensions.length; j++) {
+			                    var sCurExtension = _validFileExtensions[j];
+			                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+			                        blnValid = true;
+			                        break;
+			                    }
+			                }
+			                
+			                if (!blnValid) {
+			                    alert("Choosed file isn't picture");
+			                    return false;
+			                }
+			            }
+			        }
+			    }
+			  
+			    return true;
+			}
+		});
 		/*
 		*	Delete item image
 		*/

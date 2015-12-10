@@ -36,11 +36,41 @@
             display: block;
             margin-top: 5px;
         }
+
+        .main {
+            margin-top: 50px;
+        }
     </style>
   </head>
 
   <body>
-    <%- body %>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <a href="/" class="navbar-brand">HomePage</a>
+            <a href="/profile" class="navbar-brand">My profile</a>
+            <a href="/users" class="navbar-brand">Users</a>
+            <a href="/items" class="navbar-brand">Items</a>
+
+            <a href="/login" class="navbar-brand pull-right">Login</a>
+            <a href="/registration" class="navbar-brand pull-right">Registration</a>
+        </div>
+    </div>
+
+    <div class="container main">
+        <div class="row">
+            <%- body %>  
+        </div>
+    </div>
+
+    <div class="container">
+        <hr>
+        <footer class="footer">
+            <div class="pull-right">
+                <a href="/">Home</a>
+                <div>Test project for cleveroad</div>
+            </div>
+        </footer>
+    </div>
 
     <!--SCRIPTS-->
     <script src="/js/dependencies/sails.io.js"></script>
