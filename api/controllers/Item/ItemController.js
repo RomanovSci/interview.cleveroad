@@ -32,8 +32,6 @@ function searchItems(req, res){
 				return res.notFound();
 			}
 
-//TODO: Add owners to each items field
-
 			res.ok(items);
 		});
 }
@@ -53,8 +51,6 @@ function getItemById(req, res){
 				return res.notFound();
 			}
 
-//TODO: Add owners to each items field
-
 			res.ok(item);
 		});
 }
@@ -63,11 +59,8 @@ function updateItem(req, res){
 	var iid = req.params.id;
 	var updateData = req.body;
 
-	//Remove empty field in search query
-	for(key in updateData){
-		if(updateData[key] === ''){
-			delete updateData[key];
-		}
+	if(updateData.title.length < 3){
+		return res.unprocessableEntity('"field":"title","message":"Title should contain at least 3 characters"');
 	}
 
 	Item

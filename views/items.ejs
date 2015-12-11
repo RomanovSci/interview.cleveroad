@@ -1,10 +1,8 @@
 <style type="text/css">
-	input {
-		margin-top: 5px;
-	}
-	select {
-		display: block;
-		margin-top: 5px;
+	.main > .row > .container > .row {
+		width: 50%;
+		float: left;
+		margin: 20px 0 0 0;
 	}
 </style>
 
@@ -26,6 +24,10 @@
 			</select>
 			<input type="submit" value="Search" class="btn btn-default">
 		</form>
+	</div>
+	<div class="row">
+		<h2 class="text-center">Search result</h2>
+		<div id="items-search-result"></div>
 	</div>
 </div>
 <hr/>
@@ -56,8 +58,8 @@
 		<h1>Update item by id</h1>
 		<form id="update-item">
 			<input name="id" type="number" min="0" placeholder="Item id" required/>
-			<input name="title" type="text" placeholder="New item title" />
-			<input name="price" type="number" min="0" placeholder="New item price" />
+			<input name="title" type="text" placeholder="New item title"/>
+			<input name="price" type="number" min="0" placeholder="New item price" required/>
 			<input type="submit" value="Update item by id" class="btn btn-default"/>
 		</form>
 	</div>
@@ -110,10 +112,10 @@
 				url: '/api/item?title=' + title + '&price=' + price + '&order_by=' + order_by + '&order_type=' + order_type,
 				type: 'GET',
 				success: function(res){
-					alert('success');
+					$('#items-search-result').text(JSON.stringify(res));
 				},
 				error: function(res){
-					alert('error');
+					$('#items-search-result').text(JSON.stringify(res.statusText));
 				}
 			});
 		});
@@ -128,10 +130,10 @@
 				url: 	'/api/item/' + id,
 				type: 	'GET',
 				success: function(res){
-					alert('Get item by id success');
+					$('#items-search-result').text(JSON.stringify(res));
 				},
 				error: function(res){
-					alert('Get item by id error');
+					$('#items-search-result').text(JSON.stringify(res.statusText));	
 				}
 			});
 		});
@@ -179,10 +181,10 @@
 					req.setRequestHeader("authorization", window.localStorage.getItem('token'));
 				},
 				success: function(res){
-					alert('Update item by id success');
+					alert('Update item by id done');
 				},
 				error: function(res){
-					alert('Update item by id error');
+					alert('Update item by id error. ' + res.responseText);
 				}
 			});
 		});
@@ -200,7 +202,7 @@
 					req.setRequestHeader("authorization", window.localStorage.getItem('token'));
 				},
 				success: function(res){
-					alert('Delete item by id success');
+					alert('Delete item by id done');
 				},
 				error: function(res){
 					alert('Delete item by id error');
@@ -208,7 +210,7 @@
 			});
 		});
 		/*
-		*	Upload item iamge
+		*	Upload item image
 		*/
 		$('#upload-item-image').on('submit', function(e){
 			if(!Validate(this)){
@@ -258,7 +260,7 @@
 					req.setRequestHeader("authorization", window.localStorage.getItem('token'));
 				},
 				success: function(res){
-					alert('Delete item by id success');
+					alert('Delete item by id done');
 				},
 				error: function(res){
 					alert('Delete item by id error');
