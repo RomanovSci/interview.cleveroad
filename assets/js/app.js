@@ -1,4 +1,7 @@
 $('document').ready(function(){
+	if(!window.localStorage.getItem('token')){
+		window.localStorage.setItem('token', 'empty');
+	}
 	/*
 	 * Hiden elements
 	*/
