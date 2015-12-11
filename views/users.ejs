@@ -1,3 +1,4 @@
+
 <div class="container">
     <div class="row">
         <h1> Search users</h1>
@@ -8,13 +9,22 @@
             <input type="submit" value="Search users" class="btn btn-default"/>
         </form>
     </div>
-    <hr/>
-    <div class="row">
+</div>
+<hr/>
+<div class="container">
+    <div class="row authorized">
         <h1> Get user by id </h1>
         <form id="get-user">
             <input name="id" type="number" min="0" placeholder="Type user ID here" required/>
             <input type="submit" value="Find" class="btn btn-default"/>
         </form>
+    </div>
+</div>
+<hr/>
+<div class="container">
+    <div class="row">
+        <h1>Search result</h1>
+        <div id="search-result"></div>
     </div>
 </div>
 
@@ -33,10 +43,10 @@
     		url:  '/api/user?name=' + name + '&email=' + email,
     		type: 'GET',
     		success: function(result, status, xhr){
-    			console.dir(result);
+    			$('#search-result').text(JSON.stringify(result));
     		},
     		error: function(result, status, xhr){
-    			console.log('Error 404');
+    			$('#search-result').text('Users not found');
     		} 
     	});
     });
@@ -56,10 +66,10 @@
                 req.setRequestHeader("authorization", window.localStorage.getItem('token'));
             },
             success: function(result, status, xhr){
-                console.dir(result);
+                $('#search-result').text(JSON.stringify(result));
             },
             error: function(result, status, xhr){
-                console.log('Error 404');
+                $('#search-result').text('User not found');
             } 
         });
     });

@@ -1,18 +1,13 @@
-<style>
-	#login-container {
-		width: 300px;
-		margin: 0 auto;
-	}
-</style>
-
-<div id="login-container">
-	<h1>Login</h1>
-	<form id="login">
-		<input name="email" type="email" placeholder="Type email here"/>
-        <input name="password" type="password" placeholder="Type password here"/>
-		
-        <input type="submit" value="Login" />
-	</form>
+<div id="container">
+    <div class="row">
+    	<h1>Login</h1>
+    	<form id="login">
+    		<input name="email" type="email" placeholder="Type email here"/>
+            <input name="password" type="password" placeholder="Type password here"/>
+    		
+            <input type="submit" value="Login" class="btn btn-default"/>
+    	</form>
+    </div>
 <div>
 
 <script type="text/javascript">
@@ -30,9 +25,10 @@
             data: loginData,
     		success: function(result, status, xhr){
     			window.localStorage.setItem('token', result);
+                location = '/profile';
     		},
     		error: function(result, status, xhr){
-    			console.log('Error 404');
+                alert(result.status + ' : ' + result.responseText);
     		} 
     	});
     });

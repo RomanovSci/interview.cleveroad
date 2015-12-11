@@ -40,6 +40,14 @@
         .main {
             margin-top: 50px;
         }
+
+        .unauthorized {
+            display: block;
+        }
+
+        .authorized {
+            display: block;
+        }
     </style>
   </head>
 
@@ -47,12 +55,13 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <a href="/" class="navbar-brand">HomePage</a>
-            <a href="/profile" class="navbar-brand">My profile</a>
+            <a href="/profile" class="navbar-brand authorized">My profile</a>
             <a href="/users" class="navbar-brand">Users</a>
             <a href="/items" class="navbar-brand">Items</a>
 
-            <a href="/login" class="navbar-brand pull-right">Login</a>
-            <a href="/registration" class="navbar-brand pull-right">Registration</a>
+            <a href="/login" class="navbar-brand pull-right unauthorized">Login</a>
+            <a href="/" class="navbar-brand pull-right authorized" id="logout" >Logout</a>
+            <a href="/registration" class="navbar-brand pull-right unauthorized">Registration</a>
         </div>
     </div>
 
@@ -67,16 +76,15 @@
         <footer class="footer">
             <div class="pull-right">
                 <a href="/">Home</a>
-                <div>Test project for cleveroad</div>
+                <div>Roman Bylbas test project for cleveroad</div>
             </div>
         </footer>
     </div>
-
-    <!--SCRIPTS-->
-    <script src="/js/dependencies/sails.io.js"></script>
-    <script src="/js/dependencies/jquery.js"></script>
-    <script src="/js/bootstrap.js"></script>
-    <!--SCRIPTS END-->
   </body>
-
+  <!--SCRIPTS-->
+  <script src="/js/dependencies/sails.io.js"></script>
+  <script src="/js/dependencies/jquery.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/bootstrap.js"></script>
+  <!--SCRIPTS END-->
 </html>

@@ -46,7 +46,7 @@
 			}
 		});
 		/*
-		*  Update user info
+		*  Update user info request
 		*/
 		$('#update-profile').on('submit', function(e){
 	    	e.preventDefault();
@@ -69,9 +69,10 @@
 	    		},
 	    		success: function(res){
 	    			alert('Success update');
+	    			location = '/profile';
 	    		},
 	    		error: function(res){
-	    			alert('Error update');
+	    			alert(res.status + ' : ' + res.responseText);
 	    		} 
 	    	});
 	    });
