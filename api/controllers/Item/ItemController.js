@@ -1,3 +1,6 @@
+var fs 	 = require('fs');
+var path = require('path'); 
+
 module.exports = {
 	searchItems: searchItems,
 	getItemById: getItemById,
@@ -9,11 +12,10 @@ module.exports = {
 };
 
 function searchItems(req, res){
-	var findData = {};
-	findData.title 		= req.param('title');
-	findData.price 		= req.param('price');
+	var findData 	= {};
+	findData.title 	= req.param('title');
+	findData.price 	= req.param('price');
 
-	//Remove empty field in search query
 	for(key in findData){
 		if(findData[key] === ''){
 			delete findData[key];
@@ -38,8 +40,7 @@ function searchItems(req, res){
 
 function getItemById(req, res){
 	var iid = req.params.id;
-	console.log(iid);
-
+	
 	Item
 		.findOne({id: iid})
 		.exec(function(err, item){
@@ -151,23 +152,46 @@ function createItem(req, res){
 
 function uploadItemImage(req, res){
 	var iid = req.params.id;
+	var fileName = '';
 
-	req.file('item_pic').upload({
-		dirname: '../../assets/images/items_image'
-	},  function (err, file) {
-	      	if(err){
-	        	return res.serverError();
-	      	}
+	req.file('item_pic').upload({dirname: '../../assets/images/item_images'},  function (err, files) {
+	    if(err){
+        	return res.serverError();
+      	}
 
-	      	return res.json({
-	        	message: file.length + ' file(s) uploaded successfully!',
-	        	file: file
-	      	});
+     	fileName = files[0].fd.slice(-40);
+
+     	Item
+		.findOne({id: iid})
+		.exec(function(err, item){
+			if(err){
+				return res.serverError();
+			}
+
+			if(!item){
+				return res.notFound();
+			}
+
+			if(item.user_id !== req.user.id){
+				return res.forbidden();
+			}
+
+			Item
+				.update({id: iid}, {image: fileName})
+				.exec(function(err, items){
+					if(err){
+						return res.serverError();
+					}
+
+					res.ok(items[0]);
+				});
+		});
     });
 }
 
 function deleteItemImage(req, res){
-	var iid = req.params.id;
+	var iid 	  = req.params.id;
+	var imageLink = '';
 
 	Item
 		.findOne({id: iid})
@@ -178,8 +202,14 @@ function deleteItemImage(req, res){
 
 			if(item.user_id !== req.user.id){
 				return res.forbidden();
+			}
+
+			if(item.image == null){
+				return res.ok();
 			} 
-				
+
+			imageLink = path.normalize(path.join(__dirname, '/../../../assets/images/item_images/', item.image));
+		 		
 			Item
 				.update({id: iid},
 						{image: null})
@@ -188,8 +218,9 @@ function deleteItemImage(req, res){
 						return res.serverError();
 					}
 
+					fs.unlinkSync(imageLink);
+
 					res.ok();
 				});
-			
 		});
 }

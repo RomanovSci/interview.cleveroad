@@ -12,11 +12,13 @@
 		<form id="search-items">
 			<input name="title" type="text" placeholder="Title" />
 			<input name="price" type="number" placeholder="Price" />
+			<h5>Sort by</h5>
 			<select id="sort">
 				<p>Sort by</p>
 				<option value="price">Price</option>
 				<option selected value="createdAt">Created</option>
 			</select>
+			<h5>Order</h5>
 			<select id="sequence">
 				<p>Sequence</p>
 				<option value="asc">Direct</option> 
@@ -78,7 +80,8 @@
 <div class="container authorized">
 	<div class="row">
 		<h1>Update item image</h1>
-		<form id="upload-item-image" action="/api/item/1/image" method="post" enctype="multipart/form-data">
+		<form id="upload-item-image">
+			<input type="number" min="0" placeholder="Type item id" required/>
 			<input type="file" name="item_pic" />
 			<input type="submit" value="Upload" class="btn btn-default">
 		</form>
@@ -97,9 +100,11 @@
 
 <script type="text/javascript">
 	window.onload = function(){
-		/*
-		*	Search items by params
-		*/
+		/****************************
+		*							*
+		*	Search items by params  *
+		*							*
+		****************************/
 		$('#search-items').on('submit', function(e){
 			e.preventDefault();
 
@@ -119,9 +124,11 @@
 				}
 			});
 		});
-		/*
-		*	Search item by id
-		*/
+		/**********************
+		*					  *
+		*  Search item by id  *
+		*					  *
+		**********************/
 		$('#search-item').on('submit', function(e){
 			e.preventDefault();
 			var id = $('#search-item input[name="id"]').val();
@@ -137,9 +144,11 @@
 				}
 			});
 		});
-		/*
-		* Create new item request
-		*/
+		/**************************
+		*						  *
+		* Create new item request *
+		* 						  *
+		**************************/
 		$('#create-item').on('submit', function(e){
 			e.preventDefault();
 			var itemData = {};
@@ -162,9 +171,11 @@
 				}
 			});
 		});
-		/*
-		*	Update item by id
-		*/
+		/***********************
+		*					   *
+		*	Update item by id  *
+		*					   *
+		***********************/
 		$('#update-item').on('submit', function(e){
 			e.preventDefault();
 			var id = $('#update-item input[name="id"]').val(),
@@ -188,9 +199,11 @@
 				}
 			});
 		});
-		/*
-		*	Delete item by id
-		*/
+		/**********************
+		*					  *
+		*  Delete item by id  *
+		*     				  *
+		**********************/
 		$('#delete-item').on('submit', function(e){
 			e.preventDefault();
 			var id = $('#delete-item input[name="id"]').val();
@@ -209,17 +222,35 @@
 				}
 			});
 		});
-		/*
-		*	Upload item image
-		*/
+		/***********************
+		*					   *
+		*	Upload item image  *
+		*					   *
+		***********************/
 		$('#upload-item-image').on('submit', function(e){
+			e.preventDefault();
 			if(!Validate(this)){
 				return false;
 			};
 
+			var file 	 = $('form input[type="file"]')[0].files[0];
+			var id 	 	 = $('#upload-item-image input[type="number"]').val();
+			var formData = new FormData();
+
+			console.log(file);
+			console.log(id);
+
+			formData.append("item_pic", file);
+
+			if(file){
+				upload(formData, id);
+			}
+
+			return false;
+
     		//Validation method
 			function Validate(oForm) {
-			    var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
+			    var _validFileExtensions = [".jpg", ".bmp", ".gif", ".png"];
 			    var arrInputs = oForm.getElementsByTagName("input");
 			    for (var i = 0; i < arrInputs.length; i++) {
 			        var oInput = arrInputs[i];
@@ -245,10 +276,35 @@
 			  
 			    return true;
 			}
+
+			//Uploading method
+			function upload(file, id) {
+			  var xhr = new XMLHttpRequest();
+
+			  xhr.upload.onprogress = function(event) {
+			    console.log(event.loaded + ' / ' + event.total);
+			  }
+
+			  xhr.onload = xhr.onerror = function() {
+			    if (this.status == 200) {
+			      alert("Image uploaded");
+			    } else {
+			      alert("Error " + this.status);
+			    }
+			  };
+
+			  xhr.open("POST", "/api/item/" + id + "/image", true);
+			  xhr.setRequestHeader('authorization', window.localStorage.getItem('token'));
+
+			  xhr.send(file);
+			}
 		});
-		/*
-		*	Delete item image
-		*/
+		
+		/*********************
+		*					 *
+		*  Delete item image *
+		*					 *
+		*********************/
 		$('#delete-item-image').on('submit', function(e){
 			e.preventDefault();
 			var id = $('#delete-item-image input[name="id"]').val();
@@ -260,10 +316,10 @@
 					req.setRequestHeader("authorization", window.localStorage.getItem('token'));
 				},
 				success: function(res){
-					alert('Delete item by id done');
+					alert('Image erased');
 				},
 				error: function(res){
-					alert('Delete item by id error');
+					alert("Error " + this.status);
 				}
 			});
 		});

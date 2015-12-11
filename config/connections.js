@@ -32,37 +32,40 @@ module.exports.connections = {
   //   adapter: 'sails-disk'
   // },
 
-  // **************************************************************************
-  // *                                                                          *
-  // * MySQL is the world's most popular relational database.                   *
-  // * http://en.wikipedia.org/wiki/MySQL                                       *
-  // *                                                                          *
-  // * Run: npm install sails-mysql                                             *
-  // *                                                                          *
-  // **************************************************************************
-  mysql: {
-    adapter: 'sails-mysql',
-    host: '92.53.118.144',
-    port: 3306,
-    user: 'cg40457_db',
-    password: 'root',
-    database: 'cg40457_db'
-  },
-
-  // mysql:{
+  //
+  // *****************************************
+  // *                                       *
+  // * For connect to database on the server *
+  // *                                       *
+  // *****************************************
+  //
+  // mysql: {
   //   adapter: 'sails-mysql',
-  //   host: 'localhost',
+  //   host: '92.53.118.144',
   //   port: 3306,
-  //   user: 'root',
+  //   user: 'cg40457_db',
   //   password: 'root',
-  //   database: 'myDB'   
-  // }
+  //   database: 'cg40457_db'
+  // },
+  //
+  // ****************************************
+  // *                                      *
+  // * For connect to database on localhost *
+  // *                                      *
+  // ****************************************
+
+  mysql:{
+    adapter: 'sails-mysql',
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: 'root',
+    database: 'myDB'   
+  }
 
   /***************************************************************************
   *                                                                          *
   * MongoDB is the leading NoSQL database.                                   *
-  * http://en.wikipedia.org/wiki/MongoDB                                     *
-  *                                                                          *
   * Run: npm install sails-mongo                                             *
   *                                                                          *
   ***************************************************************************/
@@ -79,10 +82,7 @@ module.exports.connections = {
   /***************************************************************************
   *                                                                          *
   * PostgreSQL is another officially supported relational database.          *
-  * http://en.wikipedia.org/wiki/PostgreSQL                                  *
-  *                                                                          *
   * Run: npm install sails-postgresql                                        *
-  *                                                                          *
   *                                                                          *
   ***************************************************************************/
   // somePostgresqlServer: {
@@ -92,12 +92,4 @@ module.exports.connections = {
   //   password: 'YOUR_POSTGRES_PASSWORD',
   //   database: 'YOUR_POSTGRES_DB'
   // }
-
-
-  /***************************************************************************
-  *                                                                          *
-  * More adapters: https://github.com/balderdashy/sails                      *
-  *                                                                          *
-  ***************************************************************************/
-
 };

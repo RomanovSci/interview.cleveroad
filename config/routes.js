@@ -22,9 +22,11 @@
 
 module.exports.routes = {
   
-  /*
-   * Veiws
-  */
+  /*************
+  *            *
+  *   Views    *
+  *            *
+  *************/
   '/': {
     view: 'homepage'
   },
@@ -49,9 +51,11 @@ module.exports.routes = {
     view: 'users'
   },
 
-  /*
-   * For user
-  */
+  /***************
+  *              *
+  *   For user   *
+  *              *
+  ***************/
   'post /api/login': {
     controller: 'User/User',
     action:     'login'
@@ -82,9 +86,11 @@ module.exports.routes = {
     action:     'searchUsers'
   },
 
-  /*
-   *  For items 
-  */
+  /***************
+  *              *
+  *   For items  *
+  *              *
+  ***************/
   'get /api/item': {
     controller: 'Item/Item',
     action:     'searchItems'

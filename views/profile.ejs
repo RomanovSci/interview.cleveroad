@@ -14,7 +14,7 @@
     	<form id="update-profile">
     		<input name="name" type="text" placeholder="Type new name here"/>
     		<input name="phone" type="tel" placeholder="Type new phone here"/>
-    		<input name="email" type="email" placeholder="Type new email here"/>
+    		<input name="email" type="email" placeholder="Type new email here"/><br/>
     		<h4>If you want to change your password you sould fill both fields below.</h4>
     		<input name="current_password" type="password" placeholder="Type current password here"/>
     		<input name="new_password" type="password" placeholder="Type new password here"/>
@@ -26,9 +26,11 @@
 
 <script type="text/javascript">
 	window.onload = function(){
-		/*
-		* Get info about myself request
-		*/
+		/*********************************
+		*								 *
+		* Get info about myself request  *
+		* 								 *
+		*********************************/
 		$.ajax({
 			url:  '/api/me',
 			type: 'GET',
@@ -45,9 +47,11 @@
 				console.log(err);
 			}
 		});
-		/*
-		*  Update user info request
-		*/
+		/*********************************
+		*								 *
+		*    Update user info request    *
+		* 								 *
+		*********************************/
 		$('#update-profile').on('submit', function(e){
 	    	e.preventDefault();
 

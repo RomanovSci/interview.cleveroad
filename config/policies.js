@@ -19,18 +19,18 @@
 
 module.exports.policies = {
   'User/UserController': {
-  	'*': 			true,
-  	'getMyself': 	['isAuthorized'],	//Only authorized user can watch self prifile
+  	'*': 			      true,
+  	'getMyself': 	  ['isAuthorized'],	//Only authorized user can watch self prifile
   	'updateUser': 	['isAuthorized'],	//Only authorized user can change self prifile
   	'getUserById':  ['isAuthorized'] 	//Only authorized user can find other user by id
   },
 
   'Item/ItemController': {
-  	'*': 				true,
-  	'createItem': 		['isAuthorized'], 	//Only authorized user can create new item
-  	'updateItem': 		['isAuthorized'], 	//Only authorized user can update items
-  	'deleteItem': 		['isAuthorized'],	//Only authorized user can delete items
-  	'uploadItemImage':  true,				//['isAuthorized'],	//Only authorized user can upload item image
+  	'*': 				        true,
+  	'createItem': 		  ['isAuthorized'], //Only authorized user can create new item
+  	'updateItem': 		  ['isAuthorized'], //Only authorized user can update items
+  	'deleteItem': 		  ['isAuthorized'],	//Only authorized user can delete items
+  	'uploadItemImage':  ['isAuthorized'],	//Only authorized user can upload item image
   	'deleteItemImage':  ['isAuthorized']	//Only authorized user can delete item image
   }
 };
