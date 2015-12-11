@@ -42,12 +42,21 @@ module.exports.connections = {
   // **************************************************************************
   mysql: {
     adapter: 'sails-mysql',
-    host: 'localhost',
+    host: '92.53.118.144',
     port: 3306,
-    user: 'root',
+    user: 'cg40457_db',
     password: 'root',
-    database: 'myDB'
+    database: 'cg40457_db'
   },
+
+  // mysql:{
+  //   adapter: 'sails-mysql',
+  //   host: 'localhost',
+  //   port: 3306,
+  //   user: 'root',
+  //   password: 'root',
+  //   database: 'myDB'   
+  // }
 
   /***************************************************************************
   *                                                                          *
