@@ -7,29 +7,22 @@ module.exports = function(req, res, next) {
 		token = req.param('token');
 		delete req.query.token;
 	} else {
-		return res.json(401, {
-			detail: 'Unauthorized'
-		});
+		return res.notFound(401);
 	}
-
-	async.waterfall([
-		function(callback) {
-			User.findOne({token: token}).exec(callback);
-		}, 
-		function(user, callback) {
-			if(!user){
-				return res.json(401, {detail: 'Invalid User Token'});
+	
+	User
+		.findOne({token: token})
+		.exec(function(err, user){
+			if(err){
+				return res.serverError();
 			}
-			
-			callback(null, user);
-		}], 
 
-		function(err, user) {
-		  if(err){ 
-		  	return res.status(401).send(err.message); 
-		  }
+			if(!user){
+				return res.notFound(401);
+			}
 
-		  req.user = user;
-		  next();
-	  	});
+			req.user = user;
+			next();
+		})
+
 };
